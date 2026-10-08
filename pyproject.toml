@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "codetax"
+version = "1.0.0"
+description = "Measure the AI coding tax in a git repo: rework, duplication and hotspots from history"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Tony Honesto" }]
+dependencies = []
+
+[project.scripts]
+codetax = "codetax.__main__:main"
+
+[tool.setuptools]
+packages = ["codetax"]
