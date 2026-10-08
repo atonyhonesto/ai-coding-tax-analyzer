@@ -51,7 +51,9 @@ def read(repo: str, since: str | None = None) -> list[Commit]:
     commits = []
     for block in out.split(SEP)[1:]:
         sha, when, author, message, rest = block.split("\x1f", 4)
-        c = Commit(sha, datetime.fromisoformat(when).astimezone(timezone.utc), author, message.strip())
+        # git may print UTC as 'Z', which datetime.fromisoformat only accepts from Python 3.11
+        when_dt = datetime.fromisoformat(when.replace("Z", "+00:00")).astimezone(timezone.utc)
+        c = Commit(sha, when_dt, author, message.strip())
         for line in rest.strip().splitlines():
             parts = line.split("\t")
             if len(parts) == 3 and parts[0] != "-":          # "-" marks binary files
